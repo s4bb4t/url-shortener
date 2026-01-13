@@ -1,10 +1,11 @@
 package main
 
 import (
-	"fmt"
+	"log/slog"
 	"os"
 
 	"github.com/s4bb4t/url-shortener/internal/config"
+	"github.com/s4bb4t/url-shortener/internal/storage/postgres"
 )
 
 func main() {
@@ -13,12 +14,16 @@ func main() {
 		fatal(err)
 	}
 
-	fmt.Println(cfg)
+	log := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
+		Level: slog.LevelDebug,
+	}))
+	_ = log
 
-	// TODO: init logger
-
-	// TODO: init storage
-
+	storage, err := postgres.New(cfg.Postgres)
+	if err != nil {
+		fatal(err)
+	}
+	_ = storage
 	// TODO: init server
 
 	// TODO: run server

@@ -23,12 +23,12 @@ func NewConfig() (*Config, error) {
 	v := viper.New()
 	v.SetConfigFile(configPath)
 	if err := v.ReadInConfig(); err != nil {
-		return nil, fmt.Errorf("error reading config file: %s", err)
+		return nil, fmt.Errorf("error reading config file: %w", err)
 	}
 
 	var cfg Config
 	if err := v.Unmarshal(&cfg); err != nil {
-		return nil, fmt.Errorf("error unmarshalling config: %s", err)
+		return nil, fmt.Errorf("error unmarshalling config: %w", err)
 	}
 	return &cfg, nil
 }
