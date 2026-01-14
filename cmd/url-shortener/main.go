@@ -17,13 +17,16 @@ func main() {
 	log := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
 		Level: slog.LevelDebug,
 	}))
-	_ = log
 
 	storage, err := postgres.New(cfg.Postgres)
 	if err != nil {
-		fatal(err)
+		log.Error("Unable to connect to database", "error", err)
+		return
 	}
 	_ = storage
+
+	log.Info("storage initialized")
+
 	// TODO: init server
 
 	// TODO: run server
